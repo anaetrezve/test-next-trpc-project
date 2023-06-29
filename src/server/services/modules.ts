@@ -8,7 +8,17 @@ type Module = {
   title: string,
   summary: string,
   uid: string,
-  icon_url: string
+  icon_url: string,
+  products: string[],
+  social_image_url: string,
+  rating: {
+    count: number,
+    average: number
+  },
+  levels: string[],
+  roles: string[],
+  type: string,
+  duration_in_minutes: number
 }
 
 type ModulesResponse = {
@@ -19,10 +29,10 @@ export async function getModules(): Promise<Module[]> {
   const res = await http.get<ModulesResponse>("/catalog?type=modules");
   const modules = res.data.modules;
 
-  return modules?.slice(0, 20);
+  return modules?.slice(0, 100);
 }
 
-export async function getModule({ id }: {id: string}): Promise<Module | undefined> {
+export async function getModule({ id }: { id: string }): Promise<Module | undefined> {
   const res = await http.get<ModulesResponse>(`/catalog?uid=${id}`);
   const moduleItem = res.data.modules?.[0];
 
